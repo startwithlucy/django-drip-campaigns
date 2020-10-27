@@ -1,4 +1,5 @@
 from datetime import datetime
+import reversion
 
 from django.db import models
 from django.core.exceptions import ValidationError
@@ -68,6 +69,7 @@ class Drip(models.Model):
         return self.name
 
 
+@reversion.register()
 class SentDrip(models.Model):
     """
     Keeps a record of all sent drips.
