@@ -446,6 +446,38 @@ class DripsTestCase(TestCase):
             ['num_profile_user_groups'],
         )
 
+    # def test_apply_or_queryset_ruletype(self):
+    #
+    #     model_drip = Drip.objects.create(
+    #         name='A Custom Week Ago',
+    #         subject_template='HELLO {{ user.username }}',
+    #         body_html_template='KETTEHS ROCK!',
+    #     )
+    #
+    #     qsr = QuerySetRule.objects.create(
+    #         drip=model_drip,
+    #         field_name='profile__user__groups__count',
+    #         lookup_type='exact',
+    #         field_value='0',
+    #     )
+    #
+    #     QuerySetRule.objects.create(
+    #         drip=model_drip,
+    #         field_name='date_joined',
+    #         lookup_type='gte',
+    #         rule_type='or',
+    #         field_value=(
+    #                 timezone.now() - timedelta(days=1)
+    #         ).strftime('%Y-%m-%d 00:00:00'),
+    #     )
+    #
+    #     qsr.clean()
+    #     qs = model_drip.drip.apply_queryset_rules(
+    #         model_drip.drip.get_queryset()
+    #     )
+    #
+    #     self.assertEqual(qs.count(), 20)
+
     def test_apply_multiple_rules_with_aggregation(self):
 
         model_drip = Drip.objects.create(

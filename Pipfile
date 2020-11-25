@@ -47,6 +47,7 @@ twine = "3.2.0"
 
 [packages]
 Django = "==3.0.7"
+ipdb = "*"
 
 [requires]
 python_version = "3.8"

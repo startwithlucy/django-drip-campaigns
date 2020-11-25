@@ -195,16 +195,21 @@ class DripBase(object):
         return walked_range
 
     def apply_queryset_rules(self, qs: str) -> str:
-        return (self.apply_or_queryset_rules(qs) | self.apply_and_queryset_rules)
+        return (self.apply_and_queryset_rules(qs) | self.apply_or_queryset_rules(qs))
 
     def apply_or_queryset_rules(self, qs: str) -> str:
-        query = qs.none()
-        rule_set = self.drip_model.queryset_rules.filter(rule_type='or')
-        for rule in rule_set:
-            kwargs = rule.filter_kwargs(qs, now=self.now)
-            query_or = Q(**kwargs)
-            query = query | query_or
-        return query
+        # query = None
+        # rule_set = self.drip_model.queryset_rules.filter(rule_type='or')
+        # for rule in rule_set:
+        #     kwargs = rule.filter_kwargs(qs, now=self.now)
+        #     query_or = Q(**kwargs)
+        #     query = query | query_or
+        # import ipdb; ipdb.set_trace();
+        # if query != None:
+        #     qs = qs.filter(query)
+        # else:
+        #     qs = qs.none()
+        return qs.none()
 
     def apply_and_queryset_rules(self, qs: str) -> str:
         """First collect all filter/exclude kwargs and apply any annotations.
@@ -215,17 +220,13 @@ class DripBase(object):
         :return: [description]
         :rtype: str
         """
-        return qs.none()
-
         clauses = {
             'filter': [],
             'exclude': [],
         }
 
-        for rule in self.drip_model.queryset_rules.all():
-
+        for rule in self.drip_model.queryset_rules.filter(rule_type='and'):
             clause = clauses.get(rule.method_type, clauses['filter'])
-
             kwargs = rule.filter_kwargs(qs, now=self.now)
             clause.append(Q(**kwargs))
 
