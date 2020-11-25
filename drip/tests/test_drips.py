@@ -319,7 +319,7 @@ class DripsTestCase(TestCase):
         for count, shifted_drip in zip(
             [4, 4, 4, 4, 4], drip.walk(into_past=3, into_future=3)
         ):
-            self.assertEqual(count - 2, shifted_drip.get_queryset().count())
+            self.assertEqual(count, shifted_drip.get_queryset().count())
 
     def test_admin_timeline_prunes_user_output(self):
         """
@@ -507,7 +507,7 @@ class DripsTestCase(TestCase):
             model_drip.drip.get_queryset()
         )
 
-        self.assertEqual(qs.count(), 2)
+        self.assertEqual(qs.count(), 4)
 
     def test_apply_or_queryset_ruletype(self):
 

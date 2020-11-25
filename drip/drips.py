@@ -206,7 +206,7 @@ class DripBase(object):
             if query is None:
                 query = qs.none()
             query = query | query_or
-        if query != None:
+        if query is not None:
             qs = qs.filter(query)
         else:
             qs = qs.none()
@@ -228,6 +228,7 @@ class DripBase(object):
 
         for rule in self.drip_model.queryset_rules.filter(rule_type='and'):
             clause = clauses.get(rule.method_type, clauses['filter'])
+
             kwargs = rule.filter_kwargs(qs, now=self.now)
             clause.append(Q(**kwargs))
 
